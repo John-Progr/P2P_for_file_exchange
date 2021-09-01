@@ -23,7 +23,14 @@ Peer also has other operations concerning the file exchange,these are:
 4.SimpleDownload->Peer after the search of file picks the best peer from details operation based on two factors
 
                 1. the response time for each peer,having the file
-                2.0.9
+                2. formula:0.9^count_downloads*1.2^count_failures
+   Best peer is considered the one with the lowest value of the multiplication of the above two factors
+ 
+ 
+ 
+ 
+Tracker operates with the same operation because he actually replys to whatever peer requests like a sychronous communication 
+updating the appropritate data structures 
 
 
 
