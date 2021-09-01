@@ -2,13 +2,9 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.Scanner;
+import java.lang.Math;
 public class Peer {
 
     private ObjectOutputStream outputClient;
@@ -211,30 +207,16 @@ public class Peer {
                     }
 
 
-                    // peer.startClient(Integer.parseInt(args[0]));
-                    /*if(peer.login(credentials[0],credentials[1])){
-                        //if login is successful user can choose options:list,details,checkActive,simpleDownload
-                        System.out.println("Hello "+credentials[0]+" choose your actions!");
-                        System.out.println("1.List");
-                        System.out.println("2.Details");
-                        System.out.println("3.Check if he is active");
-                        System.out.println("4.simpleDownload");
 
 
-                    }
-
-              break;
-              */
 
 
-                    //  peer.closeConnection();
                     break;
 
 
                 case "3":
                     peer.sendMessage("3");
                     System.out.println("looking forward to seeing you again!");
-                    // peer.closeConnection();
                     break;
                 default:
                     System.out.println("invalid number");
@@ -295,11 +277,9 @@ public class Peer {
     }
 
 
-    // public void logout(){}
+
 
     //asks from tracker list of file names that are avauliable in the system
-    // public ArrayList<String> list() {}
-
     public void startClient(int port) {
         try {
             connectToServer(port);
@@ -337,11 +317,6 @@ public class Peer {
         }
     }
 
-
-    //Tracker waits for a peer to connect
-
-
-    //sets up the in/out streams to send messages
 
 
     public void sendMessage(String message) {
@@ -400,7 +375,6 @@ public class Peer {
 
         try {
             outputClient.writeObject(new Message(name));
-            //outputClient.writeObject(new Message("details"));
             details = (ArrayList<Account>) inputClient.readObject();
 
         } catch (IOException ioexception) {
@@ -509,7 +483,7 @@ public class Peer {
             outputClient.writeObject(new Message("HTTP REQUEST"));
             Message response=(Message)inputClient.readObject();
             long end=System.currentTimeMillis();
-            time=((double)(end - start) / 1000)*1.2*a.getCount_failures()*0.9*a.getCount_downloads();
+            time=((double)(end - start) / 1000)*Math.pow(0.9,a.getCount_downloads())*Math.pow(1.2,a.getCount_failures());
         }catch(SocketException ce) {
             System.out.println("NO connection");
 
@@ -548,7 +522,6 @@ public class Peer {
         Info fileTxt=message.getFile();
         try (FileOutputStream fos = new FileOutputStream(directory+fileTxt.getInfo_name()+".txt")) {
             fos.write(fileTxt.getFileExtract());
-            //fos.close(); There is no more need for this line since you had created the instance of "fos" inside the try. And this will automatically close the OutputStream
         }
 
 
@@ -581,18 +554,6 @@ public class Peer {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
